@@ -13,25 +13,31 @@ import csv
 #            """Pittsburg,is,beautiful."""
 #            '''
 
+
 class Input():
-    def process(self, fileString):
+    
+    def process(self, fileString, stopFile):
+        file = open(stopFile, "r")
+        stopWords = []
+        for w in file:
+            word = re.sub(r'\W+', '', w)
+            stopWords.append(word)
         if '.txt' in fileString:
-            return self.txtFile(fileString)
+            return self.txtFile(fileString, stopWords)
         elif '.csv' in fileString:
-            return self.csvFile(fileString)
+            return self.csvFile(fileString, stopWords)
         else:
             print('Formato de archivo no soportado')
 
-    def txtFile(self, filename):
+    def txtFile(self, filename, stopWords):
         f = open(filename, "r")
         words = []
         for x in f:
             proc = re.sub(r'\W+', ' ', x)
-            words.append(proc.lower().split())
+            notFiltered = proc.lower().split()
+            filtered = [x for x in notFiltered if x not in stopWords]
+            words.append(filtered)
         return words
-    
-        #output
-        #[['clouds', 'are', 'white'], ['pittsburgh', 'is', 'beautiful']]
 
     def csvFile(self, filename):
         f = open(filename)
@@ -46,9 +52,6 @@ class Input():
             finalWords.append(words)
             words = []
         return finalWords
-       
-        #output
-        #[['clouds', 'are', 'white'], ['pittsburgh', 'is', 'beautiful']]
     
 
     

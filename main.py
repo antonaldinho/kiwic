@@ -15,7 +15,7 @@ def client_code(creator: Creator, entrada, sorter: SorterCreator) -> str:
 
 if __name__ == "__main__":
     print("App: Launched with the ConcreteCreator1.")
-    inp = Input().process('ex1.txt')
+    inp = Input().process('ex1.txt', 'stop.txt')
     sentences = client_code(CircularShifterCreator(), inp, AscendingSortCreator())
     Output().output(sentences)
     print("\n")
