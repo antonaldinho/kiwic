@@ -4,10 +4,10 @@ class Output():
         file1 = open("sorted.txt", "w")
     
         for i in sentences:
-            print(*i)
+            print(i)
             a = [*i]
             for j in a:
-                file1.write(j + " ")
+                file1.write(j)
             file1.write("\n")
         file1.close()  
                 

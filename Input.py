@@ -1,17 +1,26 @@
 import re
 import csv
 
+
+
+#example1 =  '''
+#            "Clouds are white."
+#            "Pittsburgh is beautiful."
+#            '''
+
+#example2 = '''
+#            """Clouds,are,white."""
+#            """Pittsburg,is,beautiful."""
+#            '''
+
 class Input():
-    example1 =  '''
-                "Clouds are white."
-                "Pittsburgh is beautiful."
-                '''
-
-    example2 = '''
-                """Clouds,are,white."""
-                """Pittsburg,is,beautiful."""
-                '''
-
+    def process(self, fileString):
+        if '.txt' in fileString:
+            return self.txtFile(fileString)
+        elif '.csv' in fileString:
+            return self.csvFile(fileString)
+        else:
+            print('Formato de archivo no soportado')
 
     def txtFile(self, filename):
         f = open(filename, "r")
@@ -20,9 +29,9 @@ class Input():
             proc = re.sub(r'\W+', ' ', x)
             words.append(proc.lower().split())
         return words
-
-    #output
-    #[['clouds', 'are', 'white'], ['pittsburgh', 'is', 'beautiful']]
+    
+        #output
+        #[['clouds', 'are', 'white'], ['pittsburgh', 'is', 'beautiful']]
 
     def csvFile(self, filename):
         f = open(filename)
@@ -37,6 +46,9 @@ class Input():
             finalWords.append(words)
             words = []
         return finalWords
+       
+        #output
+        #[['clouds', 'are', 'white'], ['pittsburgh', 'is', 'beautiful']]
+    
 
-    #output
-    #[['clouds', 'are', 'white'], ['pittsburgh', 'is', 'beautiful']]
+    
