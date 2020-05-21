@@ -10,7 +10,7 @@ class Input():
             stopWords = []
             for w in file:
                 word = re.sub(r'\W+', '', w)
-                stopWords.append(word)
+                stopWords.append(word.lower())
 
             contador = 1
             f = open(args[0], "r")
@@ -31,7 +31,6 @@ class Input():
                 if not str(con) in unwantedLines:
                     filtered = [x for x in sentence if x not in stopWords]
                     words.append(filtered)
-                    print(con)
                 con = con + 1
             return words
         
