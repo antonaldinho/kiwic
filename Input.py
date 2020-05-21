@@ -3,32 +3,52 @@ import csv
 
 class Input():
     
-    def process(*args):
-        if len(args) == 4 and isinstance(args[1], str) and isinstance(args[2], str) and isinstance(args[3], list):
-            file = open(args[2], "r")
+    def process(self, *args):
+        #Imprime lineas, pregunta si quiere borrar lineas
+        if len(args) == 2 and isinstance(args[0], str) and isinstance(args[1], str):
+            file = open(args[1], "r")
             stopWords = []
             for w in file:
                 word = re.sub(r'\W+', '', w)
                 stopWords.append(word)
+
             contador = 1
-            f = open(args[1], "r")
+            f = open(args[0], "r")
+            words = []
+            notFiltered = self.process(args[0])
+            line = ""
+            for item in notFiltered:
+                for ele in item:
+                    line += ele + " "
+                print(str(contador) + " - " + line)
+                line= ""
+                contador += 1
+            input_string = input("Write the line numbers to remove, separated by a comma.Hit enter when you finished:\n")
+            unwantedLines = input_string.replace(" "," ").split(",")
+            
+            con = 1
+            for sentence in notFiltered:
+                if not str(con) in unwantedLines:
+                    filtered = [x for x in sentence if x not in stopWords]
+                    words.append(filtered)
+                    print(con)
+                con = con + 1
+            return words
+        
+        #No toma en cuenta stopWords    
+        elif len(args) == 1 and isinstance(args[0], str):
+            f = open(args[0], "r")
             words = []
             for x in f:
-                print(contador)
-                if not contador in args[3]:
-                    proc = re.sub(r'\W+', ' ', x)
-                    notFiltered = proc.lower().split()
-                    line = ""
-                    for item in notFiltered:
-                        line+= item + " "
-                    print(line)
-                    filtered = [x for x in notFiltered if x not in stopWords]
-                    words.append(filtered)
-                else:
-                    contador+= 1
+                proc = re.sub(r'\W+', ' ', x)
+                words.append(proc.lower().split())
             return words
-    
-        elif len(args) == 3 and isinstance(args[1], str) and isinstance(args[2], str):
+        
+        else:
+            print("No hay suficiente informacion para procesar")
+
+        #Quita stopWords
+        '''elif len(args) == 2 and isinstance(args[0], str) and isinstance(args[1], str):
             file = open(args[2], "r")
             stopWords = []
             for w in file:
@@ -43,15 +63,9 @@ class Input():
                 filtered = [x for x in notFiltered if x not in stopWords]
                 words.append(filtered)
             return words
+        '''
         
-            
-        elif len(args) == 2 and isinstance(args[1], str):
-            f = open(args[1], "r")
-            words = []
-            for x in f:
-                proc = re.sub(r'\W+', ' ', x)
-                words.append(proc.lower().split())
-            return words
+        
     
     
     
